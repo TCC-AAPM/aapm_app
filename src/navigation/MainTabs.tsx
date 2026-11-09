@@ -11,10 +11,10 @@ import AccountScreen from '../screens/home/AccountScreen';
 import ActionsScreen from '../screens/home/ActionsScreen';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
-const META: Record<string, { label: string; icon: keyof typeof Ionicons.glyphMap }> = {
-  Home: { label: 'Home', icon: 'folder-outline' },
-  Account: { label: 'Sobre a conta', icon: 'person-circle-outline' },
-  Actions: { label: 'Ações', icon: 'menu-outline' },
+const META: Record<string, { label: string; icon: keyof typeof Ionicons.glyphMap; activeIcon: keyof typeof Ionicons.glyphMap }> = {
+  Home: { label: 'Home', icon: 'home-outline', activeIcon: 'home' },
+  Account: { label: 'Sobre a conta', icon: 'person-circle-outline', activeIcon: 'person-circle' },
+  Actions: { label: 'Ações', icon: 'settings-outline', activeIcon: 'settings' },
 };
 
 function TabBar({ state, navigation }: BottomTabBarProps) {
@@ -29,7 +29,7 @@ function TabBar({ state, navigation }: BottomTabBarProps) {
         const on = state.index === i; const m = META[r.name];
         return (
           <Pressable key={r.key} onPress={() => navigation.navigate(r.name)} style={{ width: w, alignItems: 'center' }}>
-            <View style={{ height: 30, justifyContent: 'center' }}><Ionicons name={m.icon} size={20} color={on ? '#fff' : '#6B7280'} /></View>
+            <View style={{ height: 30, justifyContent: 'center' }}><Ionicons name={on ? m.activeIcon : m.icon} size={20} color={on ? '#fff' : '#6B7280'} /></View>
             <Text style={{ marginTop: 3, fontSize: 8, fontFamily: on ? fonts.semi : fonts.regular, color: on ? colors.primary : '#6B7280' }}>{m.label}</Text>
           </Pressable>
         );
