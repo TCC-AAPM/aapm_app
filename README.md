@@ -8,7 +8,7 @@ npx expo start
 
 ## Onde colocar suas imagens
 - `assets/images/logo.png` → sua logo (PNG transparente/branca). Usada por `components/ui/Logo.tsx` em todas as telas.
-- `assets/images/hero.jpg` → foto da tela de boas-vindas.
+- `assets/images/hero.png` → foto da tela de boas-vindas.
 
 ## Arquitetura
 ```

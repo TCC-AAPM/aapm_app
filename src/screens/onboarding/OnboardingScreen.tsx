@@ -11,8 +11,9 @@ import Logo from '../../components/ui/Logo';
 import RevealTitle from '../../components/ui/RevealTitle';
 import Rise from '../../components/ui/Rise';
 import AppButton from '../../components/ui/AppButton';
+import heroImage from '../../../assets/images/hero.png';
 
-/** 👉 Troque assets/images/hero.jpg pela foto do design. */
+/** Imagem de fundo da tela de boas-vindas. */
 export default function OnboardingScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Onboarding'>) {
   const k = useSharedValue(1.18);
   useEffect(() => { k.value = withTiming(1, { duration: 2600, easing: ease.outExpo }); }, []);
@@ -20,7 +21,7 @@ export default function OnboardingScreen({ navigation }: NativeStackScreenProps<
   return (
     <View style={{ flex: 1, backgroundColor: '#000' }}>
       <Animated.View style={[StyleSheet.absoluteFill, bg]}>
-        <ImageBackground source={require('../../../assets/images/hero.jpg')} style={StyleSheet.absoluteFill} resizeMode="cover" />
+        <ImageBackground source={heroImage} style={StyleSheet.absoluteFill} resizeMode="cover" />
       </Animated.View>
       <LinearGradient colors={['rgba(0,0,0,0.15)', 'rgba(0,0,0,0.35)', 'rgba(0,0,0,0.75)']} style={StyleSheet.absoluteFill} />
       <SafeAreaView style={{ flex: 1, paddingHorizontal: 20 }}>
