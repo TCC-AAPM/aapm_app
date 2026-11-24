@@ -12,7 +12,7 @@ export default function Checkbox({ label, checked, onToggle }: { label: string; 
       <Animated.View style={[{ width: 16, height: 16, borderRadius: 3, borderWidth: 1, borderColor: colors.primary, alignItems: 'center', justifyContent: 'center' }, box]}>
         <Animated.View style={tick}><Ionicons name="checkmark" size={12} color="#fff" /></Animated.View>
       </Animated.View>
-      <Text style={{ flex: 1, marginLeft: 12, fontFamily: fonts.regular, fontSize: 9.5, color: colors.black }}>{label}</Text>
+      <Text style={{ flex: 1, marginLeft: 12, fontFamily: fonts.regular, fontSize: 13, lineHeight: 20, color: colors.black }}>{label}</Text>
     </Pressable>
   );
 }

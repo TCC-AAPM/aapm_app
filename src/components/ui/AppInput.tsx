@@ -14,14 +14,14 @@ export default function AppInput({ label, value, onChangeText, secure, keyboardT
   const box = useAnimatedStyle(() => ({ borderColor: interpolateColor(f.value, [0, 1], [colors.border, colors.primary]), borderWidth: 1 + f.value * 0.8 }));
   const lbl = useAnimatedStyle(() => ({ color: interpolateColor(f.value, [0, 1], [colors.muted, colors.primary]) }));
   return (
-    <Animated.View style={[{ height: 46, borderRadius: radius.field, justifyContent: 'center', paddingHorizontal: 12, marginBottom: 14 }, box, style]}>
-      <Animated.Text style={[{ position: 'absolute', top: -8, left: 10, paddingHorizontal: 4, backgroundColor: colors.white, fontSize: 9, fontFamily: fonts.regular }, lbl]}>{label}</Animated.Text>
+    <Animated.View style={[{ height: 58, borderRadius: radius.field, justifyContent: 'center', paddingHorizontal: 15, marginBottom: 18, backgroundColor: colors.white }, box, style]}>
+      <Animated.Text style={[{ position: 'absolute', top: -9, left: 12, paddingHorizontal: 5, backgroundColor: colors.white, fontSize: 12, fontFamily: fonts.medium }, lbl]}>{label}</Animated.Text>
       <TextInput
         value={value} secureTextEntry={secure} keyboardType={keyboardType} autoCapitalize="none"
         onChangeText={(v) => onChangeText(mask ? mask(v) : v)}
         onFocus={() => (f.value = withTiming(1, { duration: 220 }))}
         onBlur={() => (f.value = withTiming(0, { duration: 220 }))}
-        style={{ fontFamily: fonts.regular, fontSize: 12, color: colors.black, padding: 0 }}
+        style={{ fontFamily: fonts.regular, fontSize: 16, color: colors.black, padding: 0 }}
       />
     </Animated.View>
   );

@@ -13,9 +13,9 @@ export default function AppButton({ label, onPress }: { label: string; onPress?:
       onPress={onPress}
       onPressIn={() => (s.value = withSpring(0.96, { damping: 15, stiffness: 300 }))}
       onPressOut={() => (s.value = withSpring(1, { damping: 10, stiffness: 220 }))}
-      style={[{ height: 44, borderRadius: radius.button, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' }, shadow, st]}
+      style={[{ minHeight: 54, borderRadius: radius.button, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 22 }, shadow, st]}
     >
-      <Text style={{ color: colors.white, fontFamily: fonts.regular, fontSize: 14 }}>{label}</Text>
+      <Text style={{ color: colors.white, fontFamily: fonts.semi, fontSize: 16 }}>{label}</Text>
     </AP>
   );
 }

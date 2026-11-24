@@ -3,6 +3,7 @@
 ```
 npm install
 npx expo install --fix
+npx expo install expo-secure-store
 npx expo start
 ```
 
@@ -22,3 +23,7 @@ src/screens/{splash,onboarding,auth,hire,home}/
 src/utils/masks.ts           máscaras (data, CPF, telefone) + idade
 src/data/mock.ts             textos/dados mockados da Home
 ```
+
+## API
+`src/services/api.ts` (fetch + Bearer), `src/context/AuthContext.tsx` (login/sessão), `src/services/signup.ts` (pré-cadastro). Base: https://tcc-aapm.onrender.com/api
+Após instalar o expo-secure-store, rode `npx expo run:android` (módulo nativo novo).

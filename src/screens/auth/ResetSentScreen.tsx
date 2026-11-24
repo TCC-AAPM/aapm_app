@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 import Animated, { useSharedValue, useAnimatedProps, withDelay, withTiming, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -10,6 +10,8 @@ import AuthLayout from '../../components/ui/AuthLayout';
 import AppButton from '../../components/ui/AppButton';
 import FooterLink from '../../components/ui/FooterLink';
 import Rise from '../../components/ui/Rise';
+import { api, errMsg } from '../../services/api';
+import { flow } from '../../services/flow';
 
 const AC = Animated.createAnimatedComponent(Circle);
 const AP = Animated.createAnimatedComponent(Path);
@@ -37,13 +39,19 @@ function DrawCheck() {
 }
 
 export default function ResetSentScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'ResetSent'>) {
+  const reenviar = async () => {
+    try {
+      await api('/EsqueciSenha/reenviar-codigo-recuperacao', { method: 'POST', auth: false, body: { email: flow.resetEmail } });
+      Alert.alert('Pronto', 'Reenviamos o e-mail de recuperação.');
+    } catch (e) { Alert.alert('Não foi possível reenviar', errMsg(e)); }
+  };
   return (
     <AuthLayout title={[{ t: 'Redefinição de Senha' }]} ratio={0.55} heading="Enviamos um link de redefinição de senha no seu Email!" sub={'Se ficar sem receber, aguarde alguns minutos\nantes de solicitar novamente'}>
       <View style={{ height: 8 }} />
       <DrawCheck />
       <View style={{ flex: 1, minHeight: 20 }} />
       <Rise i={3}><AppButton label="Fazer login" onPress={() => navigation.navigate('Login')} /></Rise>
-      <Rise i={4}><FooterLink text="Não recebeu o código?" action="reenviar" /></Rise>
+      <Rise i={4}><FooterLink text="Não recebeu o código?" action="reenviar" onPress={reenviar} /></Rise>
     </AuthLayout>
   );
 }

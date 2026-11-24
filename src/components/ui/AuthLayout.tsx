@@ -19,14 +19,14 @@ export default function AuthLayout({ title, ratio = 0.55, heading, sub, children
         <Rise i={0} style={{ marginTop: 6 }}><Logo size={64} /></Rise>
       </SafeAreaView>
       <View style={{ position: 'absolute', left: 40, right: 40, top: height * 0.19 }}>
-        <RevealTitle segs={title} size={22} />
+        <RevealTitle segs={title} size={28} />
       </View>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
         <Animated.View entering={sheetIn} style={{ height: height * ratio, backgroundColor: colors.white, borderTopLeftRadius: radius.sheet, borderTopRightRadius: radius.sheet }}>
-          <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 24, paddingTop: 28, paddingBottom: 28 }}>
+          <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 24, paddingTop: 32, paddingBottom: 32 }}>
             <Rise i={0}>
-              <Text style={{ textAlign: 'center', fontFamily: fonts.medium, fontSize: 14, lineHeight: 20, color: colors.black }}>{heading}</Text>
-              {sub ? <Text style={{ textAlign: 'center', fontFamily: fonts.light, fontSize: 10, lineHeight: 15, color: colors.muted, marginTop: 6, marginBottom: 22 }}>{sub}</Text> : <View style={{ height: 22 }} />}
+              <Text style={{ textAlign: 'center', fontFamily: fonts.semi, fontSize: 17, lineHeight: 24, color: colors.black }}>{heading}</Text>
+              {sub ? <Text style={{ textAlign: 'center', fontFamily: fonts.regular, fontSize: 13, lineHeight: 20, color: colors.muted, marginTop: 8, marginBottom: 26 }}>{sub}</Text> : <View style={{ height: 24 }} />}
             </Rise>
             {children}
           </ScrollView>

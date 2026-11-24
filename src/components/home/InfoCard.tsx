@@ -7,24 +7,24 @@ type Props = { icon: keyof typeof Ionicons.glyphMap; label: string; title: strin
 
 export default function InfoCard({ icon, label, title, sub, tag, tagColor = 'blue', warn }: Props) {
   return (
-    <View style={[{ backgroundColor: '#fff', borderRadius: radius.card, padding: 14, flexDirection: 'row' }, shadow]}>
-      <View style={{ width: 34, height: 34, borderRadius: 8, backgroundColor: colors.iconBox, alignItems: 'center', justifyContent: 'center' }}>
-        <Ionicons name={icon} size={18} color={colors.primary} />
+    <View style={[{ backgroundColor: '#fff', borderRadius: radius.card, padding: 18, flexDirection: 'row', alignItems: 'flex-start', borderWidth: 1, borderColor: '#EDF1F7' }, shadow]}>
+      <View style={{ width: 44, height: 44, borderRadius: 14, backgroundColor: colors.softBlue, alignItems: 'center', justifyContent: 'center' }}>
+        <Ionicons name={icon} size={22} color={colors.primary} />
       </View>
-      <View style={{ flex: 1, marginLeft: 12 }}>
-        <Text style={{ fontFamily: fonts.light, fontSize: 8, color: colors.muted }}>{label}</Text>
-        <Text style={{ fontFamily: fonts.semi, fontSize: 13, color: colors.black }}>{title}</Text>
-        {sub ? <Text style={{ fontFamily: fonts.light, fontSize: 10, color: colors.black, marginTop: 4 }}>{sub}</Text> : null}
+      <View style={{ flex: 1, minWidth: 0, marginLeft: 14, paddingRight: tag ? 48 : 0 }}>
+        <Text style={{ fontFamily: fonts.medium, fontSize: 12, color: colors.muted, letterSpacing: 0.2 }}>{label}</Text>
+        <Text style={{ fontFamily: fonts.semi, fontSize: 17, lineHeight: 24, color: colors.black, marginTop: 3 }}>{title}</Text>
+        {sub ? <Text style={{ fontFamily: fonts.regular, fontSize: 14, color: colors.inkSoft, marginTop: 4 }}>{sub}</Text> : null}
         {warn ? (
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-            <Ionicons name="warning-outline" size={12} color={colors.warnIcon} />
-            <Text style={{ marginLeft: 4, fontFamily: fonts.light, fontSize: 8.5, color: colors.warnIcon }}>{warn}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 12 }}>
+            <Ionicons name="time-outline" size={16} color={colors.warnText} style={{ marginTop: 1 }} />
+            <Text style={{ flex: 1, marginLeft: 6, fontFamily: fonts.medium, fontSize: 12, lineHeight: 18, color: colors.warnText }}>{warn}</Text>
           </View>
         ) : null}
       </View>
       {tag ? (
-        <View style={{ position: 'absolute', top: 10, right: 12, paddingHorizontal: 8, paddingVertical: 1, borderRadius: 4, backgroundColor: tagColor === 'blue' ? colors.tagBlueBg : colors.tagGreenBg }}>
-          <Text style={{ fontFamily: fonts.medium, fontSize: 7, color: tagColor === 'blue' ? colors.primary : colors.tagGreenText }}>{tag}</Text>
+        <View style={{ position: 'absolute', top: 15, right: 15, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 20, backgroundColor: tagColor === 'blue' ? colors.tagBlueBg : colors.tagGreenBg }}>
+          <Text style={{ fontFamily: fonts.semi, fontSize: 10, color: tagColor === 'blue' ? colors.primary : colors.tagGreenText }}>{tag}</Text>
         </View>
       ) : null}
     </View>

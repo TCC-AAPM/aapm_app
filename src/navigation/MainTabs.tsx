@@ -21,16 +21,16 @@ function TabBar({ state, navigation }: BottomTabBarProps) {
   const { width } = useWindowDimensions();
   const { bottom } = useSafeAreaInsets();
   const w = width / state.routes.length;
-  const pill = useAnimatedStyle(() => ({ transform: [{ translateX: withSpring(state.index * w + (w - 60) / 2, { damping: 16, stiffness: 160 }) }] }));
+  const pill = useAnimatedStyle(() => ({ transform: [{ translateX: withSpring(state.index * w + (w - 64) / 2, { damping: 16, stiffness: 160 }) }] }));
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: colors.white, paddingTop: 10, paddingBottom: bottom + 6, shadowColor: '#000', shadowOpacity: 0.08, shadowRadius: 10, elevation: 12 }}>
-      <Animated.View style={[{ position: 'absolute', top: 10, width: 60, height: 30, borderRadius: 15, backgroundColor: colors.primary }, pill]} />
+    <View style={{ flexDirection: 'row', backgroundColor: colors.white, paddingTop: 12, paddingBottom: bottom + 8, shadowColor: '#18345F', shadowOpacity: 0.08, shadowRadius: 14, elevation: 12 }}>
+      <Animated.View style={[{ position: 'absolute', top: 10, width: 64, height: 34, borderRadius: 17, backgroundColor: colors.primary }, pill]} />
       {state.routes.map((r, i) => {
         const on = state.index === i; const m = META[r.name];
         return (
-          <Pressable key={r.key} onPress={() => navigation.navigate(r.name)} style={{ width: w, alignItems: 'center' }}>
-            <View style={{ height: 30, justifyContent: 'center' }}><Ionicons name={on ? m.activeIcon : m.icon} size={20} color={on ? '#fff' : '#6B7280'} /></View>
-            <Text style={{ marginTop: 3, fontSize: 8, fontFamily: on ? fonts.semi : fonts.regular, color: on ? colors.primary : '#6B7280' }}>{m.label}</Text>
+          <Pressable key={r.key} onPress={() => navigation.navigate(r.name)} accessibilityRole="tab" accessibilityState={{ selected: on }} style={{ width: w, minHeight: 56, alignItems: 'center' }}>
+            <View style={{ height: 34, width: 64, alignItems: 'center', justifyContent: 'center' }}><Ionicons name={on ? m.activeIcon : m.icon} size={22} color={on ? '#fff' : '#6B7280'} /></View>
+            <Text style={{ marginTop: 5, fontSize: 11, fontFamily: on ? fonts.semi : fonts.medium, color: on ? colors.primary : '#6B7280' }}>{m.label}</Text>
           </Pressable>
         );
       })}

@@ -5,65 +5,80 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors, fonts, radius, shadow } from '../../theme';
 import { rise, sheetIn } from '../../animations/motion';
 import HomeHeader from '../../components/home/HomeHeader';
-import { user } from '../../data/mock';
+import { useAuth } from '../../context/AuthContext';
+import { Profile } from '../../services/profile';
+import { fromISO, maskCPF, maskPhone } from '../../utils/masks';
 
-const profileRows = [
-  [
-    { label: 'Nome completo', value: user.fullName },
-    { label: 'CPF', value: '351.924.868-90' },
-  ],
-  [
-    { label: 'Matrícula', value: '1234' },
-    { label: 'Telefone', value: '(11) 9 9887-7655' },
-  ],
-  [
-    { label: 'E-mail', value: 'isabella@email.com' },
-    { label: 'Nascimento', value: '05/05/2006' },
-  ],
-  [
-    { label: 'Curso', value: 'Técnico em Desenvolvimento' },
-    { label: 'Turma', value: 'DS2A' },
-  ],
+type Field = { label: string; value: string };
+const buildGroups = (u: Profile | null) => [
+  { title: 'Dados pessoais', icon: 'person-outline' as const, fields: [
+    { label: 'Nome completo', value: u?.nome ?? '' },
+    { label: 'Nome social', value: u?.nomeSocial ?? '' },
+    { label: 'CPF', value: maskCPF(u?.cpf ?? '') },
+    { label: 'Data de nascimento', value: fromISO(u?.dataNasc) },
+  ] },
+  { title: 'Contato', icon: 'chatbubble-ellipses-outline' as const, fields: [
+    { label: 'E-mail', value: u?.email ?? '' },
+    { label: 'Telefone', value: maskPhone(u?.telefone ?? '') },
+  ] },
+  { title: 'Dados escolares', icon: 'school-outline' as const, fields: [
+    { label: 'Matrícula', value: u?.matricula ?? '' },
+    { label: 'Curso', value: u?.curso ?? '' },
+    { label: 'Turma', value: u?.turma ?? '' },
+  ] },
+  { title: 'Pagamento', icon: 'card-outline' as const, fields: [
+    { label: 'Situação', value: u?.pagamento ?? '' },
+  ] },
 ];
 
-function ProfileField({ label, value }: { label: string; value: string }) {
+function ProfileField({ label, value, last }: Field & { last: boolean }) {
   return (
-    <View style={[{ flex: 1, minHeight: 58, justifyContent: 'center', paddingHorizontal: 10, paddingVertical: 8, backgroundColor: colors.white, borderRadius: 10 }, shadow]}>
-      <Text style={{ fontFamily: fonts.light, fontSize: 7, color: colors.muted }}>{label}</Text>
-      <Text numberOfLines={2} style={{ marginTop: 3, fontFamily: fonts.medium, fontSize: 9, color: colors.black }}>{value}</Text>
+    <View style={{ minHeight: 66, paddingVertical: 12, borderBottomWidth: last ? 0 : 1, borderBottomColor: '#EDF1F7', justifyContent: 'center' }}>
+      <Text style={{ fontFamily: fonts.medium, fontSize: 12, color: colors.muted, letterSpacing: 0.2 }}>{label}</Text>
+      <Text selectable numberOfLines={3} style={{ marginTop: 3, fontFamily: fonts.medium, fontSize: 15, lineHeight: 22, color: colors.black }}>{value || '—'}</Text>
     </View>
   );
 }
 
 export default function AccountScreen() {
+  const { user } = useAuth();
+  const groups = buildGroups(user);
+  const initials = (user?.nomeSocial || user?.nome || 'A').trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase();
+
   return (
-    <View style={{ flex: 1, backgroundColor: colors.primary }}>
+    <View style={{ flex: 1, backgroundColor: colors.page }}>
       <HomeHeader />
-      <Animated.View entering={sheetIn} style={{ flex: 1, marginTop: -radius.sheet, backgroundColor: '#fff', borderTopLeftRadius: radius.sheet, borderTopRightRadius: radius.sheet }}>
-        <ScrollView contentContainerStyle={{ padding: 18, paddingTop: 16, paddingBottom: 30 }} showsVerticalScrollIndicator={false}>
-          <Animated.View entering={rise(0, 400)} style={[{ flexDirection: 'row', alignItems: 'center', padding: 12, marginBottom: 10, backgroundColor: colors.white, borderRadius: 14 }, shadow]}>
-            <View style={{ width: 34, height: 34, borderRadius: 9, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.iconBox }}>
-              <Ionicons name="person-outline" size={18} color={colors.primary} />
+      <Animated.View entering={sheetIn} style={{ flex: 1, marginTop: -radius.sheet, backgroundColor: colors.page, borderTopLeftRadius: radius.sheet, borderTopRightRadius: radius.sheet }}>
+        <ScrollView contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 24, paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
+          <Animated.View entering={rise(0, 180)} style={[{ flexDirection: 'row', alignItems: 'center', padding: 18, marginBottom: 24, backgroundColor: colors.white, borderRadius: radius.card, borderWidth: 1, borderColor: '#EDF1F7' }, shadow]}>
+            <View style={{ width: 58, height: 58, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.softBlue }}>
+              <Text style={{ fontFamily: fonts.semi, fontSize: 21, color: colors.primary }}>{initials}</Text>
             </View>
-            <View style={{ flex: 1, marginLeft: 10 }}>
-              <Text style={{ fontFamily: fonts.light, fontSize: 7, color: colors.muted }}>Perfil</Text>
-              <Text style={{ fontFamily: fonts.semi, fontSize: 11, color: colors.black }}>{user.fullName}</Text>
+            <View style={{ flex: 1, marginLeft: 14 }}>
+              <Text style={{ fontFamily: fonts.medium, fontSize: 12, color: colors.muted }}>MEU PERFIL</Text>
+              <Text numberOfLines={2} style={{ marginTop: 2, fontFamily: fonts.semi, fontSize: 18, lineHeight: 24, color: colors.black }}>{user?.nomeSocial || user?.nome || 'Aluno AAPM'}</Text>
+              {!!user?.email && <Text numberOfLines={1} style={{ marginTop: 2, fontFamily: fonts.regular, fontSize: 13, color: colors.inkSoft }}>{user.email}</Text>}
             </View>
+            <Ionicons name="shield-checkmark" size={22} color="#3D9B75" />
           </Animated.View>
 
-          <Animated.View entering={rise(1, 400)} style={{ alignItems: 'center', marginBottom: 10 }}>
-            <Text style={{ color: colors.link, fontFamily: fonts.semi, fontSize: 8, textDecorationLine: 'underline' }}>Alterar dados cadastrais</Text>
-          </Animated.View>
-
-          {profileRows.map((row, index) => (
-            <Animated.View key={row[0].label} entering={rise(index + 2, 400)} style={{ flexDirection: 'row', gap: 9, marginBottom: 9 }}>
-              {row.map((field) => <ProfileField key={field.label} {...field} />)}
+          {groups.map((group, index) => (
+            <Animated.View key={group.title} entering={rise(index + 1, 180)} style={{ marginBottom: 20 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, paddingHorizontal: 2 }}>
+                <View style={{ width: 30, height: 30, borderRadius: 10, backgroundColor: colors.softBlue, alignItems: 'center', justifyContent: 'center' }}>
+                  <Ionicons name={group.icon} size={16} color={colors.primary} />
+                </View>
+                <Text style={{ marginLeft: 9, fontFamily: fonts.semi, fontSize: 16, color: colors.black }}>{group.title}</Text>
+              </View>
+              <View style={[{ paddingHorizontal: 16, backgroundColor: colors.white, borderRadius: 18, borderWidth: 1, borderColor: '#EDF1F7' }, shadow]}>
+                {group.fields.map((field, fieldIndex) => <ProfileField key={field.label} {...field} last={fieldIndex === group.fields.length - 1} />)}
+              </View>
             </Animated.View>
           ))}
-
-          <Animated.View entering={rise(6, 400)} style={{ marginBottom: 9 }}>
-            <ProfileField label="Pagamento" value="A" />
-          </Animated.View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 2 }}>
+            <Ionicons name="lock-closed-outline" size={14} color={colors.muted} />
+            <Text style={{ marginLeft: 6, fontFamily: fonts.regular, fontSize: 12, color: colors.muted }}>Seus dados são protegidos pela AAPM</Text>
+          </View>
         </ScrollView>
       </Animated.View>
     </View>
